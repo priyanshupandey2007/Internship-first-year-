@@ -1,1 +1,2 @@
 2026-06-01 10:00:00 work: day 1 - initial setup
+2026-06-02 10:00:00 work: day 2 - core components

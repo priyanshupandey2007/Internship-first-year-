@@ -1,0 +1,84 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f4f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.calculator {
+  border-radius: 12px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
+  width: 400px;
+  background-color: #1e1e24;
+  padding: 20px;
+}
+
+.calculator-screen {
+  width: 100%;
+  height: 80px;
+  border: none;
+  background-color: #2e2f3e;
+  color: #ffffff;
+  text-align: right;
+  padding: 0 20px;
+  font-size: 2.5rem;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  overflow-x: auto;
+}
+
+.calculator-keys {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 12px;
+}
+
+button {
+  height: 60px;
+  border-radius: 8px;
+  border: none;
+  background-color: #e0e0e0;
+  font-size: 1.5rem;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #d4d4d4;
+}
+
+.operator {
+  background-color: #ff9f0a;
+  color: white;
+}
+
+.operator:hover {
+  background-color: #cc7f08;
+}
+
+.equal-sign {
+  background-color: #2ec4b6;
+  color: white;
+  grid-column: span 4; /* Stretches the equal sign across the bottom row */
+}
+
+.equal-sign:hover {
+  background-color: #259e92;
+}
+
+.all-clear {
+  background-color: #e71d36;
+  color: white;
+}
+
+.all-clear:hover {
+  background-color: #b9172b;
+}

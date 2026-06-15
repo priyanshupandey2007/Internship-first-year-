@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Clock - JavaScript & DOM</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .clock-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        body.dark-mode .clock-container {
+            background: #222;
+            color: #fff;
+        }
+
+        #clockDisplay {
+            font-family: 'Courier New', monospace;
+            font-size: 60px;
+            font-weight: bold;
+            color: #333;
+            margin: 20px 0;
+            letter-spacing: 2px;
+        }
+
+        body.dark-mode #clockDisplay {
+            color: #00ff00;
+        }
+
+        #dateDisplay {
+            font-size: 16px;
+            color: #666;
+            margin: 15px 0 30px;
+        }
+
+        body.dark-mode #dateDisplay {
+            color: #aaa;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button.active {
+            background: #667eea;
+            color: white;
+        }
+
+        body.dark-mode button {
+            background: #333;
+            border-color: #00ff00;
+            color: #00ff00;
+        }
+
+        body.dark-mode button:hover {
+            background: #00ff00;
+            color: #222;
+        }
+
+        body.dark-mode button.active {
+            background: #00ff00;
+            color: #222;
+        }
+
+        .info-box {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #555;
+        }
+
+        body.dark-mode .info-box {
+            background: #333;
+            color: #aaa;
+        }
+
+        .code-snippet {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            text-align: left;
+            overflow-x: auto;
+        }
+
+        body.dark-mode .code-snippet {
+            background: #444;
+            color: #0f0;
+        }
+    </style>
+</head>
+<body>
+    <!-- HTML Structure - Simple and Clean -->
+    <div class="clock-container">
+        <h1>Digital Clock</h1>
+        
+        <!-- DOM Elements for JavaScript to manipulate -->
+        <div id="clockDisplay">00:00:00</div>
+        <div id="dateDisplay">Loading...</div>
+        
+        <!-- Buttons for user interaction -->
+        <div class="button-group">
+            <button id="btn12Hour" class="active" onclick="setFormat12()">12 Hour</button>
+            <button id="btn24Hour" onclick="setFormat24()">24 Hour</button>
+            <button id="btnDarkMode" onclick="toggleDarkMode()">Dark Mode</button>
+        </div>
+
+        <div class="info-box">
+            <strong>JavaScript Concepts Used:</strong>
+            <div class="code-snippet">
+                • Date object - new Date()<br>
+                • setInterval() - Updates every 1000ms<br>
+                • DOM Selection - getElementById()<br>
+                • DOM Manipulation - textContent, classList<br>
+                • Event Handlers - onclick
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========================================
+        // 1. VARIABLES & STATE MANAGEMENT
+        // ========================================
+        let is24HourFormat = false;
+        let isDarkMode = false;
+
+        // Get references to DOM elements (Cache them for better performance)
+        const clockDisplay = document.getElementById('clockDisplay');
+        const dateDisplay = document.getElementById('dateDisplay');
+        const btn12Hour = document.getElementById('btn12Hour');
+        const btn24Hour = document.getElementById('btn24Hour');
+        const btnDarkMode = document.getElementById('btnDarkMode');
+
+        // ========================================
+        // 2. DATE OBJECT - Get current time
+        // ========================================
+        function getTimeString() {
+            // Create a new Date object with current date and time
+            const now = new Date();
+
+            // Extract time components using Date methods
+            let hours = now.getHours();           // 0-23
+            const minutes = now.getMinutes();     // 0-59
+            const seconds = now.getSeconds();     // 0-59
+
+            // Apply the selected format
+            if (is24HourFormat) {
+                // 24-hour format: 0-23
+                return `${padNumber(hours)}:${padNumber(minutes)}:${padNumber(seconds)}`;
+            } else {
+                // 12-hour format: 1-12 with AM/PM
+                const ampm = hours >= 12 ? 'PM' : 'AM';
+                hours = hours % 12;                    // Convert to 1-12
+                hours = hours ? hours : 12;            // Convert 0 to 12
+                return `${padNumber(hours)}:${padNumber(minutes)}:${padNumber(seconds)} ${ampm}`;
+            }
+        }
+
+        // ========================================
+        // 3. DATE FORMATTING HELPER
+        // ========================================
+        function getDateString() {
+            // Create a new Date object
+            const now = new Date();
+
+            // Format the date (many ways to do this)
+            // Option 1: Using toLocaleDateString()
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            return now.toLocaleDateString('en-US', options);
+        }
+
+        // Pad single-digit numbers with leading zero
+        function padNumber(num) {
+            return num < 10 ? '0' + num : num;
+        }
+
+        // ========================================
+        // 4. DOM MANIPULATION - Update the display
+        // ========================================
+        function updateDisplay() {
+            // DOM Method 1: textContent - Update text content of element
+            clockDisplay.textContent = getTimeString();
+            dateDisplay.textContent = getDateString();
+        }
+
+        // ========================================
+        // 5. SETINTERVAL() - Real-time updates
+        // ========================================
+        function startClock() {
+            // Update immediately
+            updateDisplay();
+
+            // Update every 1000 milliseconds (1 second)
+            // setInterval runs the function repeatedly
+            setInterval(updateDisplay, 1000);
+            
+            // Alternative: Use setTimeout for more control
+            // function repeatUpdate() {
+            //     updateDisplay();
+            //     setTimeout(repeatUpdate, 1000);
+            // }
+            // repeatUpdate();
+        }
+
+        // ========================================
+        // 6. EVENT HANDLERS - User interaction
+        // ========================================
+        function setFormat12() {
+            is24HourFormat = false;
+            updateDisplay();
+
+            // DOM Method 2: classList - Add/remove CSS classes
+            btn12Hour.classList.add('active');      // Add 'active' class
+            btn24Hour.classList.remove('active');   // Remove 'active' class
+        }
+
+        function setFormat24() {
+            is24HourFormat = true;
+            updateDisplay();
+
+            btn12Hour.classList.remove('active');
+            btn24Hour.classList.add('active');
+        }
+
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+
+            // DOM Method 3: classList.toggle() - Toggle a class on/off
+            document.body.classList.toggle('dark-mode');
+
+            // Update button text
+            btnDarkMode.textContent = isDarkMode ? 'Light Mode' : 'Dark Mode';
+        }
+
+        // ========================================
+        // 7. INITIALIZATION - Run on page load
+        // ========================================
+        startClock();
+
+        // Alternative: Run when DOM is ready
+        // document.addEventListener('DOMContentLoaded', startClock);
+
+    </script>
+</body>
+</html>

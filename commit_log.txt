@@ -11,3 +11,4 @@
 2026-06-15 10:00:00 work: day 11 - testing
 2026-06-16 10:00:00 work: day 12 - enhancements
 2026-06-17 10:00:00 work: day 13 - utilities
+2026-06-18 10:00:00 work: day 14 - responsive design

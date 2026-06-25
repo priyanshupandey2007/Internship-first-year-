@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Search App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Movie Search App</h1>
+        <form id="search-form">
+            <input type="text" id="search-input" placeholder="Search for movies (e.g., Batman, Inception)..." autocomplete="off" required>
+            <button type="submit">Search</button>
+        </form>
+    </header>
+
+    <main id="main">
+        <div class="message">Search for a movie to see results!</div>
+    </main>
+
+    <div id="movie-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="modal-details">
+                </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

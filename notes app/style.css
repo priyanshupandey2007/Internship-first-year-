@@ -1,0 +1,113 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #f4f6f9;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    padding: 30px;
+}
+
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto 30px auto;
+}
+
+.app-header h1 {
+    color: #2c3e50;
+    font-size: 2rem;
+}
+
+.add-note-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(52, 152, 219, 0.2);
+    transition: background 0.2s, transform 0.1s;
+}
+
+.add-note-btn:hover {
+    background-color: #2980b9;
+}
+
+.add-note-btn:active {
+    transform: scale(0.98);
+}
+
+/* Notes Grid Interface */
+.notes-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Individual Note Elements */
+.note-card {
+    background: #fff;
+    border-radius: 8px;
+    height: 240px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid #e1e8ed;
+    transition: box-shadow 0.2s;
+}
+
+.note-card:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.note-textarea {
+    flex: 1;
+    resize: none;
+    border: none;
+    outline: none;
+    padding: 15px;
+    font-family: inherit;
+    font-size: 1rem;
+    line-height: 1.5;
+    background: transparent;
+    color: #444;
+}
+
+/* Note Toolbar Footer */
+.note-footer {
+    background: #fcfcfc;
+    border-top: 1px solid #eee;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    color: #888;
+}
+
+.delete-note-btn {
+    background: none;
+    border: none;
+    color: #e74c3c;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.delete-note-btn:hover {
+    background: #fdedec;
+}

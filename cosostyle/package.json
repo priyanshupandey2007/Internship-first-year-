@@ -1,22 +1,6 @@
 {
-  "name": "cossstyle",
-  "version": "1.0.0",
-  "description": "Premium T-Shirt E-Commerce Website",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "next": "^14.0.0",
-    "lucide-react": "^latest"
-  },
-  "devDependencies": {
-    "eslint": "^8.48.0",
-    "eslint-config-next": "^14.0.0"
+    "lucide-react": "^1.21.0",
+    "react-router-dom": "^7.18.0"
   }
 }

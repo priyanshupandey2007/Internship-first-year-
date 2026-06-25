@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Application</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="quiz-container" id="quiz">
+        <div id="quiz-header">
+            <div class="progress-container">
+                <span id="progress-text">Question 1 of 4</span>
+                <span id="timer-text">Time Left: <strong id="time-clock">15</strong>s</span>
+            </div>
+            <h2 id="question">Question text goes here?</h2>
+        </div>
+
+        <div class="quiz-body">
+            <ul class="options-list">
+                <li>
+                    <button class="option-btn" data-char="A">Option A</button>
+                </li>
+                <li>
+                    <button class="option-btn" data-char="B">Option B</button>
+                </li>
+                <li>
+                    <button class="option-btn" data-char="C">Option C</button>
+                </li>
+                <li>
+                    <button class="option-btn" data-char="D">Option D</button>
+                </li>
+            </ul>
+        </div>
+
+        <div class="quiz-footer">
+            <button id="next-btn" class="control-btn" disabled>Next Question</button>
+        </div>
+    </div>
+
+    <div class="quiz-container hidden" id="result-panel">
+        <h2>Quiz Complete!</h2>
+        <div class="score-box">
+            <p>Your Final Score:</p>
+            <h1 id="score-text">0 / 0</h1>
+        </div>
+        <button id="restart-btn" class="control-btn accent-btn">Restart Quiz</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

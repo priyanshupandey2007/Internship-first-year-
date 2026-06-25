@@ -1,0 +1,75 @@
+body {
+    background-color: #1a1a2e;
+    color: #fff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background-color: #162447;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+    width: 350px;
+}
+
+h2 {
+    margin-top: 0;
+    text-align: center;
+    color: #e43f5a;
+}
+
+.result-container {
+    background-color: #1f4068;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    word-break: break-all;
+}
+
+#copy-btn {
+    background-color: #e43f5a;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.setting {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px 0;
+}
+
+input[type="number"] {
+    width: 50px;
+    padding: 5px;
+    border-radius: 3px;
+    border: none;
+}
+
+.btn-large {
+    background-color: #e43f5a;
+    color: white;
+    border: none;
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.btn-large:active, #copy-btn:active {
+    transform: scale(0.98);
+}

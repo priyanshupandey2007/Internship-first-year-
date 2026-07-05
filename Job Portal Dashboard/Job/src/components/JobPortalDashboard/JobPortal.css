@@ -1,0 +1,507 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg: #F5F3EE;
+  --surface: #FFFFFF;
+  --ink: #1F2421;
+  --ink-soft: #5B6660;
+  --ink-faint: #8B9490;
+  --line: #DAD4C6;
+  --line-strong: #C6BEAC;
+  --accent: #2D5F4C;
+  --accent-soft: #E4ECE7;
+  --accent-warm: #B9702F;
+  --accent-warm-soft: #F3E4D3;
+  --danger: #A63D40;
+  --focus: #2D5F4C;
+  --radius: 3px;
+}
+
+* { box-sizing: border-box; }
+
+.jp-root {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+.jp-root *:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.jp-mono {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+.jp-serif {
+  font-family: 'Fraunces', Georgia, serif;
+}
+
+/* ---------- Header ---------- */
+
+.jp-header {
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.jp-header-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.jp-logo {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.jp-logo-mark {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: 0.02em;
+}
+
+.jp-logo-sub {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+}
+
+.jp-nav {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.jp-nav-btn {
+  background: none;
+  border: none;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.jp-nav-btn:hover { background: var(--accent-soft); color: var(--ink); }
+
+.jp-nav-btn.active {
+  background: var(--accent);
+  color: #fff;
+}
+
+.jp-nav-count {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  opacity: 0.85;
+}
+
+.jp-search-wrap {
+  flex: 1;
+  position: relative;
+  max-width: 420px;
+  margin-left: auto;
+}
+
+.jp-search-wrap svg {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ink-faint);
+}
+
+.jp-search-input {
+  width: 100%;
+  padding: 9px 12px 9px 34px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg);
+  font-size: 14px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  color: var(--ink);
+}
+
+.jp-search-input:focus {
+  border-color: var(--accent);
+  background: var(--surface);
+}
+
+/* ---------- Layout ---------- */
+
+.jp-layout {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 28px 24px 80px;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+@media (max-width: 760px) {
+  .jp-layout { grid-template-columns: 1fr; }
+  .jp-header-inner { flex-wrap: wrap; }
+  .jp-search-wrap { max-width: none; width: 100%; margin-left: 0; order: 3; }
+}
+
+/* ---------- Filters ---------- */
+
+.jp-filters {
+  position: sticky;
+  top: 76px;
+}
+
+.jp-filters-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 14px;
+}
+
+.jp-filter-group {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.jp-filter-group:last-of-type { border-bottom: none; }
+
+.jp-filter-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.jp-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.jp-chip {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink-soft);
+  font-size: 12.5px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+.jp-chip:hover { border-color: var(--line-strong); }
+
+.jp-chip.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.jp-range-row {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-faint);
+  margin-top: 6px;
+}
+
+.jp-reset-btn {
+  width: 100%;
+  background: none;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius);
+  padding: 8px;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  cursor: pointer;
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+.jp-reset-btn:hover { border-color: var(--danger); color: var(--danger); }
+
+/* ---------- Results meta ---------- */
+
+.jp-results-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 16px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--ink-faint);
+}
+
+/* ---------- Job card (ledger entry) ---------- */
+
+.jp-entry {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: border-color 0.12s ease, transform 0.12s ease;
+}
+
+.jp-entry:hover {
+  border-color: var(--line-strong);
+}
+
+.jp-entry-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.jp-entry-id {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-faint);
+  letter-spacing: 0.04em;
+}
+
+.jp-entry-title {
+  font-family: 'Fraunces', serif;
+  font-size: 19px;
+  font-weight: 500;
+  margin: 2px 0 3px;
+}
+
+.jp-entry-company {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.jp-dot { color: var(--line-strong); }
+
+.jp-tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: var(--accent-warm-soft);
+  color: var(--accent-warm);
+}
+
+.jp-save-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--ink-faint);
+  padding: 4px;
+  border-radius: var(--radius);
+  flex-shrink: 0;
+}
+
+.jp-save-btn:hover { color: var(--accent-warm); }
+.jp-save-btn.saved { color: var(--accent-warm); }
+
+/* salary bar - signature element */
+
+.jp-salary-row {
+  margin-top: 14px;
+}
+
+.jp-salary-figures {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin-bottom: 5px;
+}
+
+.jp-salary-track {
+  position: relative;
+  height: 6px;
+  background: var(--accent-soft);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.jp-salary-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: var(--accent);
+  border-radius: 999px;
+}
+
+.jp-entry-skills {
+  margin-top: 12px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.jp-skill-pill {
+  font-size: 11.5px;
+  color: var(--ink-soft);
+  border: 1px solid var(--line);
+  padding: 3px 8px;
+  border-radius: var(--radius);
+}
+
+/* ---------- Empty state ---------- */
+
+.jp-empty {
+  text-align: center;
+  padding: 70px 20px;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius);
+  color: var(--ink-soft);
+}
+
+.jp-empty-title {
+  font-family: 'Fraunces', serif;
+  font-size: 20px;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+/* ---------- Detail page ---------- */
+
+.jp-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--ink-soft);
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 20px;
+  padding: 0;
+}
+
+.jp-back-link:hover { color: var(--accent); }
+
+.jp-detail-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 32px;
+}
+
+.jp-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 24px;
+  margin-bottom: 24px;
+}
+
+.jp-detail-title {
+  font-family: 'Fraunces', serif;
+  font-size: 30px;
+  font-weight: 500;
+  margin: 6px 0 8px;
+}
+
+.jp-detail-meta {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  color: var(--ink-soft);
+  font-size: 14px;
+  align-items: center;
+}
+
+.jp-apply-btn {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 11px 20px;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.jp-apply-btn:hover { background: #244a3c; }
+
+.jp-detail-save {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 10px 16px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.jp-detail-save.saved {
+  border-color: var(--accent-warm);
+  color: var(--accent-warm);
+  background: var(--accent-warm-soft);
+}
+
+.jp-detail-section-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 8px;
+}
+
+.jp-detail-desc {
+  font-size: 15px;
+  color: var(--ink);
+  max-width: 62ch;
+  margin-bottom: 28px;
+}
+
+.jp-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--ink);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: var(--radius);
+  font-size: 13.5px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  z-index: 50;
+}

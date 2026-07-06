@@ -1,7 +1,16 @@
 import React from 'react';
 import { Heart } from 'lucide-react';
+import { useWishlist } from '../context/WishlistContext';
 
-export default function ProductCard({ title, price, tag, image }) {
+export default function ProductCard({ id, title, price, tag, image }) {
+  const { toggleWishlist, isInWishlist } = useWishlist();
+  const saved = isInWishlist(id);
+
+  const handleHeartClick = (e) => {
+    e.stopPropagation();
+    toggleWishlist({ id, title, price, image });
+  };
+
   return (
     <div className="group relative flex flex-col bg-black overflow-hidden">
       {/* Display Asset Media Capture Frame Container Area */}
@@ -11,8 +20,11 @@ export default function ProductCard({ title, price, tag, image }) {
             {tag}
           </span>
         )}
-        <button className="absolute top-3 right-3 p-1.5 rounded-full bg-black/40 text-white hover:text-brandRed transition z-10 backdrop-blur-sm">
-          <Heart size={14} />
+        <button
+          onClick={handleHeartClick}
+          className="absolute top-3 right-3 p-1.5 rounded-full bg-black/40 text-white hover:text-brandRed transition z-10 backdrop-blur-sm cursor-pointer"
+        >
+          <Heart size={14} className={saved ? 'fill-brandRed text-brandRed' : ''} />
         </button>
         <img 
           src={image} 

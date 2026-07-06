@@ -1,12 +1,28 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ShieldCheck, Container, Truck, RefreshCw, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowRight, ShieldCheck, Container, Truck, RefreshCw, X, ChevronLeft, ChevronRight, Check, Heart } from 'lucide-react';
 import Manifesto from '../components/Manifesto';
+import { useCart } from '../context/CartContext';
+import { useWishlist } from '../context/WishlistContext';
+
+// Static lookup so we know what to actually put in the bag for each drop.
+// Keyed the same way as `activeProduct` so it's easy to pull the right one.
+const PRODUCT_INFO = {
+  blank: { id: 'blank-canvas-drop-01', title: 'BLANK CANVAS // DROP 01', price: 45 },
+  logo: { id: 'studio-logo-form-drop-01', title: 'STUDIO LOGO FORM // DROP 01', price: 48 },
+  shadow: { id: 'shadow-profile-tee-01', title: '01 SHADOW PROFILE TEE', price: 45 },
+  vintage: { id: 'vintage-heavy-crop-sun-washed', title: 'VINTAGE HEAVY CROP // SUN WASHED', price: 52 },
+  earth: { id: 'box-earth-minimalist', title: 'BOX EARTH MINIMALIST', price: 46 },
+};
 
 export default function Home() {
+  const { addToCart } = useCart();
+  const { toggleWishlist, isInWishlist } = useWishlist();
+
   // Modal tracking state mapping data structures
   const [activeProduct, setActiveProduct] = useState(null); // 'blank' | 'logo' | 'shadow' | 'vintage' | 'earth'
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [justAdded, setJustAdded] = useState(false);
 
   // Array 1: Plain heavyweight white tee assets
   const blankTeeImages = [
@@ -89,9 +105,39 @@ export default function Home() {
     setCurrentImageIndex((prev) => (prev === 0 ? activeImages.length - 1 : prev - 1));
   };
 
+  const handleToggleWishlist = (e, productKey, previewImage) => {
+    e.stopPropagation(); // don't let the click also open the product modal
+    const info = PRODUCT_INFO[productKey];
+    toggleWishlist({
+      id: info.id,
+      title: info.title,
+      price: info.price,
+      image: previewImage,
+    });
+  };
+
   const openProductModal = (productKey) => {
     setActiveProduct(productKey);
     setCurrentImageIndex(0);
+    setJustAdded(false);
+  };
+
+  const handleAddToBag = () => {
+    if (!activeProduct) return;
+
+    const info = PRODUCT_INFO[activeProduct];
+    addToCart({
+      id: info.id,
+      title: info.title,
+      price: info.price,
+      image: activeImages[0],
+    });
+
+    // Quick visual confirmation before the modal closes
+    setJustAdded(true);
+    setTimeout(() => {
+      setActiveProduct(null);
+    }, 700);
   };
 
   return (
@@ -181,6 +227,15 @@ export default function Home() {
                 alt="Blank Canvas Front View" 
                 className="w-full h-full object-cover object-top transition-transform duration-500 ease-out group-hover:scale-105"
               />
+              <button
+                onClick={(e) => handleToggleWishlist(e, 'blank', blankTeeImages[0])}
+                className="absolute top-3 right-3 p-1.5 rounded-full bg-black/50 text-white hover:text-brand-red transition z-10 backdrop-blur-sm cursor-pointer"
+              >
+                <Heart
+                  size={16}
+                  className={isInWishlist(PRODUCT_INFO.blank.id) ? 'fill-brand-red text-brand-red' : ''}
+                />
+              </button>
               <div className="absolute bottom-3 left-3 bg-black/80 border border-neutral-800 text-[10px] font-black tracking-widest text-white px-2.5 py-1 uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                 View All Angles
               </div>
@@ -207,6 +262,15 @@ export default function Home() {
                 alt="Studio Logo Tee Front View" 
                 className="w-full h-full object-cover object-top transition-transform duration-500 ease-out group-hover:scale-105"
               />
+              <button
+                onClick={(e) => handleToggleWishlist(e, 'logo', logoTeeImages[0])}
+                className="absolute top-3 right-3 p-1.5 rounded-full bg-black/50 text-white hover:text-brand-red transition z-10 backdrop-blur-sm cursor-pointer"
+              >
+                <Heart
+                  size={16}
+                  className={isInWishlist(PRODUCT_INFO.logo.id) ? 'fill-brand-red text-brand-red' : ''}
+                />
+              </button>
               <div className="absolute bottom-3 left-3 bg-black/80 border border-neutral-800 text-[10px] font-black tracking-widest text-white px-2.5 py-1 uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                 View All Angles
               </div>
@@ -233,6 +297,15 @@ export default function Home() {
                 alt="Shadow Profile Black Tee Front View" 
                 className="w-full h-full object-cover object-top transition-transform duration-500 ease-out group-hover:scale-105"
               />
+              <button
+                onClick={(e) => handleToggleWishlist(e, 'shadow', shadowTeeImages[0])}
+                className="absolute top-3 right-3 p-1.5 rounded-full bg-black/50 text-white hover:text-brand-red transition z-10 backdrop-blur-sm cursor-pointer"
+              >
+                <Heart
+                  size={16}
+                  className={isInWishlist(PRODUCT_INFO.shadow.id) ? 'fill-brand-red text-brand-red' : ''}
+                />
+              </button>
               <div className="absolute bottom-3 left-3 bg-black/80 border border-neutral-800 text-[10px] font-black tracking-widest text-white px-2.5 py-1 uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                 View All Angles
               </div>
@@ -259,6 +332,15 @@ export default function Home() {
                 alt="Vintage Heavy Crop Front View" 
                 className="w-full h-full object-cover object-top transition-transform duration-500 ease-out group-hover:scale-105"
               />
+              <button
+                onClick={(e) => handleToggleWishlist(e, 'vintage', vintageTeeImages[0])}
+                className="absolute top-3 right-3 p-1.5 rounded-full bg-black/50 text-white hover:text-brand-red transition z-10 backdrop-blur-sm cursor-pointer"
+              >
+                <Heart
+                  size={16}
+                  className={isInWishlist(PRODUCT_INFO.vintage.id) ? 'fill-brand-red text-brand-red' : ''}
+                />
+              </button>
               <div className="absolute bottom-3 left-3 bg-black/80 border border-neutral-800 text-[10px] font-black tracking-widest text-white px-2.5 py-1 uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                 View All Angles
               </div>
@@ -285,6 +367,15 @@ export default function Home() {
                 alt="Earth Minimalist Front View" 
                 className="w-full h-full object-cover object-top transition-transform duration-500 ease-out group-hover:scale-105"
               />
+              <button
+                onClick={(e) => handleToggleWishlist(e, 'earth', earthTeeImages[0])}
+                className="absolute top-3 right-3 p-1.5 rounded-full bg-black/50 text-white hover:text-brand-red transition z-10 backdrop-blur-sm cursor-pointer"
+              >
+                <Heart
+                  size={16}
+                  className={isInWishlist(PRODUCT_INFO.earth.id) ? 'fill-brand-red text-brand-red' : ''}
+                />
+              </button>
               <div className="absolute bottom-3 left-3 bg-black/80 border border-neutral-800 text-[10px] font-black tracking-widest text-white px-2.5 py-1 uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                 View All Angles
               </div>
@@ -400,11 +491,18 @@ export default function Home() {
                 </div>
               </div>
 
-              <button 
-                onClick={() => setActiveProduct(null)}
-                className="w-full bg-brand-red hover:bg-red-700 text-white text-xs font-black tracking-widest py-4 uppercase transition-colors cursor-pointer"
+              <button
+                onClick={handleAddToBag}
+                disabled={justAdded}
+                className="w-full bg-brand-red hover:bg-red-700 disabled:bg-green-700 text-white text-xs font-black tracking-widest py-4 uppercase transition-colors cursor-pointer flex items-center justify-center gap-2"
               >
-                ADD TO BAG
+                {justAdded ? (
+                  <>
+                    <Check size={14} strokeWidth={3} /> ADDED TO BAG
+                  </>
+                ) : (
+                  'ADD TO BAG'
+                )}
               </button>
             </div>
 

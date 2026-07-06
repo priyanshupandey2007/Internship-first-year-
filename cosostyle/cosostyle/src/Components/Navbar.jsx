@@ -1,8 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { Search, Heart, ShoppingBag, User, X } from 'lucide-react';
+import { Search, Heart, ShoppingBag, User, X, Plus, Minus, Trash2 } from 'lucide-react';
+import { useCart } from '../context/CartContext';
+import { useWishlist } from '../context/WishlistContext';
 
 export default function Navbar() {
+  const { cartItems, cartCount, cartTotal, removeFromCart, updateQuantity } = useCart();
+  const { wishlistCount } = useWishlist();
+
   // Toggle states for the shopping bag drawer, auth menu, and expanding search bar
   const [isBagOpen, setIsBagOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -114,13 +119,23 @@ export default function Navbar() {
             </div>
             
             {/* Wishlist Heart Redirect Link */}
-            <Link to="/wishlist" className="hover:text-brand-red text-white transition block p-1">
+            <Link to="/wishlist" className="hover:text-brand-red text-white transition relative block p-1">
               <Heart size={18} strokeWidth={2.5} />
+              {wishlistCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-brand-red text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center leading-none">
+                  {wishlistCount}
+                </span>
+              )}
             </Link>
             
             {/* Shopping Bag Open Drawer Handler */}
             <button onClick={() => setIsBagOpen(true)} className="hover:text-brand-red transition cursor-pointer relative block p-1">
               <ShoppingBag size={18} strokeWidth={2.5} />
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-brand-red text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center leading-none">
+                  {cartCount}
+                </span>
+              )}
             </button>
 
             {/* Auth Menu Dropdown Controls */}
@@ -170,19 +185,78 @@ export default function Navbar() {
               </button>
             </div>
 
-            <div className="flex-grow flex flex-col items-center justify-center text-center px-4">
-              <h3 className="text-white font-black font-impact tracking-widest text-2xl uppercase mb-2">BAG IS EMPTY</h3>
-              <p className="text-neutral-500 text-xs tracking-wide max-w-xs mb-8">
-                Add some heavyweight cotton to your collection.
-              </p>
-              <Link 
-                to="/shop" 
-                onClick={() => setIsBagOpen(false)}
-                className="bg-brand-red hover:bg-red-700 text-white font-black text-xs tracking-widest px-8 py-3.5 uppercase transition"
-              >
-                SHOP THE COLLECTION
-              </Link>
-            </div>
+            {cartItems.length === 0 ? (
+              <div className="flex-grow flex flex-col items-center justify-center text-center px-4">
+                <h3 className="text-white font-black font-impact tracking-widest text-2xl uppercase mb-2">BAG IS EMPTY</h3>
+                <p className="text-neutral-500 text-xs tracking-wide max-w-xs mb-8">
+                  Add some heavyweight cotton to your collection.
+                </p>
+                <Link
+                  to="/shop"
+                  onClick={() => setIsBagOpen(false)}
+                  className="bg-brand-red hover:bg-red-700 text-white font-black text-xs tracking-widest px-8 py-3.5 uppercase transition"
+                >
+                  SHOP THE COLLECTION
+                </Link>
+              </div>
+            ) : (
+              <>
+                {/* Scrollable Cart Line Items List */}
+                <div className="flex-grow overflow-y-auto py-4 flex flex-col gap-4">
+                  {cartItems.map((item) => (
+                    <div key={item.id} className="flex gap-3 border-b border-neutral-900 pb-4">
+                      <div className="w-16 h-20 bg-[#0F0F11] border border-neutral-800 overflow-hidden shrink-0">
+                        <img src={item.image} alt={item.title} className="w-full h-full object-cover object-top" />
+                      </div>
+                      <div className="flex-grow flex flex-col justify-between min-w-0">
+                        <div className="flex items-start justify-between gap-2">
+                          <h4 className="text-white text-xs font-bold tracking-wide uppercase line-clamp-2">
+                            {item.title}
+                          </h4>
+                          <button
+                            onClick={() => removeFromCart(item.id)}
+                            className="text-neutral-500 hover:text-brand-red transition shrink-0 cursor-pointer"
+                          >
+                            <Trash2 size={14} />
+                          </button>
+                        </div>
+                        <div className="flex items-center justify-between mt-2">
+                          <div className="flex items-center gap-2 border border-neutral-800">
+                            <button
+                              onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                              className="p-1.5 text-neutral-400 hover:text-white transition cursor-pointer"
+                            >
+                              <Minus size={12} />
+                            </button>
+                            <span className="text-white text-xs font-bold w-4 text-center">{item.quantity}</span>
+                            <button
+                              onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                              className="p-1.5 text-neutral-400 hover:text-white transition cursor-pointer"
+                            >
+                              <Plus size={12} />
+                            </button>
+                          </div>
+                          <span className="text-neutral-300 text-xs font-bold">
+                            ${(item.price * item.quantity).toFixed(2)}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Subtotal & Checkout Footer */}
+                <div className="border-t border-neutral-900 pt-4">
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-xs font-bold tracking-widest text-neutral-400 uppercase">Subtotal</span>
+                    <span className="text-white text-lg font-black">${cartTotal.toFixed(2)}</span>
+                  </div>
+                  <button className="w-full bg-brand-red hover:bg-red-700 text-white font-black text-xs tracking-widest py-4 uppercase transition cursor-pointer">
+                    CHECKOUT
+                  </button>
+                </div>
+              </>
+            )}
 
           </div>
         </div>
